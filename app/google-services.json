@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "988988976565",
+    "firebase_url": "https://lpufoodie.firebaseio.com",
+    "project_id": "lpufoodie",
+    "storage_bucket": "lpufoodie.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:988988976565:android:a3a33f60c82da07f973dfc",
+        "android_client_info": {
+          "package_name": "com.lpufoodie.lpufoodie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "988988976565-11qb45qt4mvht2aebcopc19ihnouuhk1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lpufoodie.lpufoodie",
+            "certificate_hash": "5f2ddfbff2d118edc4e33dd6f52e5ff0802a9d69"
+          }
+        },
+        {
+          "client_id": "988988976565-11p7nqqq0vr7g1vrahutiq4gpp3h4lrg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCn2RmjR9zLP9i7Sv4L6eLL0oiuRjOnFlM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "988988976565-11p7nqqq0vr7g1vrahutiq4gpp3h4lrg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

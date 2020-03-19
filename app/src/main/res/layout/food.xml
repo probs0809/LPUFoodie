@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="5sp">
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img"
+        android:layout_width="match_parent"
+        android:layout_height="200sp"
+        android:layout_margin="0sp"
+        tools:srcCompat="@tools:sample/avatars"
+
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200sp"
+        android:layout_marginEnd="10sp"
+        android:layout_marginStart="10sp"
+        android:layout_gravity="bottom"
+
+        >
+
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="10sp"
+            />
+        <TextView
+            android:id="@+id/name"
+            android:layout_below="@id/category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sample Restaurant"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/cost"
+            android:layout_below="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="cost"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            />
+
+
+        <ImageButton
+            android:contentDescription="@string/app_name"
+            android:id="@+id/button"
+            android:layout_below="@+id/cost"
+            android:layout_alignEnd="@id/cost"
+            android:layout_width="50sp"
+            android:layout_height="50sp"
+            android:background="#ffffff"
+            android:tooltipText="Add To Cart"
+            android:src="@drawable/ic_add_shopping_cart_24px"/>
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>
