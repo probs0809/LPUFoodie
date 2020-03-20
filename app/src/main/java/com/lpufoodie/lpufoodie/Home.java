@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.crystal.crystalpreloaders.widgets.CrystalPreloader;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -92,7 +94,9 @@ public class Home extends Fragment {
                                     restaurants.add(rDataSnap.getValue(Restaurant.class));
 
                                 }
+
                                 ra = new RestaurantsAdapter(restaurants,getContext(),fragmentManager);
+
                                 rv.setAdapter(ra);
                                 view.setVisibility(View.VISIBLE);
 

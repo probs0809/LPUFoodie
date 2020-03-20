@@ -13,6 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
@@ -55,7 +58,12 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewAdapter holder, int position) {
         final Restaurant res = restaurants.get(position);
-        Picasso.get().load(res.getPictureUri()).into(holder.imageView);
+        Picasso.get()
+                .load(res.getPictureUri())
+                .resize(1000,500)
+                .centerCrop()
+                .into(holder.imageView);
+
         holder.name.setText(res.getName());
         holder.subTitle.setText(res.getSubTitle());
         holder.rating.setText(String.valueOf(res.getRating()));
@@ -68,6 +76,9 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
                 replace(FoodMenu.newInstance(res,context,fragmentManager));
             }
         });
+        YoYo.with(Techniques.FadeIn)
+                .duration(700)
+                .playOn(holder.itemView);
     }
 
     private void replace(Fragment fragment){

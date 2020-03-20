@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.HashSet;
@@ -29,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
         handler = new Handler(getMainLooper());
         cart = findViewById(R.id.go_to_cart);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+
+
         replace(Home.newInstance(MainActivity.this,MainActivity.this.getSupportFragmentManager()));
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -55,6 +61,16 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        YoYo.with(Techniques.BounceInUp)
+                .duration(1000)
+                .repeat(1)
+                .playOn(bottomNavigationView);
+
+        YoYo.with(Techniques.BounceInDown)
+                .duration(1000)
+                .repeat(1)
+                .playOn(findViewById(R.id.header));
 
 
 

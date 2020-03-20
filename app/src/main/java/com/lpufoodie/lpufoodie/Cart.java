@@ -18,6 +18,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +90,8 @@ public class Cart extends Fragment {
             }
         });
 
+
+
         return view;
     }
 
@@ -104,11 +109,16 @@ public class Cart extends Fragment {
             view.findViewById(R.id.bottom_button).setVisibility(View.VISIBLE);
             cartValue.setVisibility(View.VISIBLE);
             listView.setVisibility(View.VISIBLE);
+
         }else{
             listView.setVisibility(View.GONE);
             view.findViewById(R.id.empty).setVisibility(View.VISIBLE);
             view.findViewById(R.id.bottom_button).setVisibility(View.GONE);
             cartValue.setVisibility(View.GONE);
+            YoYo.with(Techniques.Shake)
+                    .repeat(2)
+                    .duration(500)
+                    .playOn(view.findViewById(R.id.empty));
         }
 
 
@@ -189,10 +199,16 @@ class CartItemAdapter extends ArrayAdapter<Food>{
             }
         });
 
-        Picasso.get().load(food.getPictureUri()).into(image);
+        Picasso.get().load(food.getPictureUri())
+                .resize(500,500)
+                .centerCrop()
+                .into(image);
         item_name.setText(food.getName());
         restaurant_name.setText(MainActivity.restaurant.getName());
         item_cost.setText("Rs."+food.getCost());
+        YoYo.with(Techniques.FadeIn)
+                .duration(700)
+                .playOn(rowView);
 
         return rowView;
     }

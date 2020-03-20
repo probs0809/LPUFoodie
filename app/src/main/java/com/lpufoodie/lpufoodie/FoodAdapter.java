@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -49,7 +51,10 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewAdapter> {
         holder.name.setText(food.getName());
         holder.cost.setText(String.valueOf(food.getCost()));
         holder.category.setText(food.getCategory());
-        Picasso.get().load(food.getPictureUri()).into(holder.imageView);
+        Picasso.get().load(food.getPictureUri())
+                .resize(500,500)
+                .centerCrop()
+                .into(holder.imageView);
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,6 +62,9 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewAdapter> {
                 cart.findViewById(R.id.go_to_cart).setVisibility(View.VISIBLE);
             }
         });
+        YoYo.with(Techniques.FadeInUp)
+                .duration(700)
+                .playOn(holder.itemView);
 
     }
 

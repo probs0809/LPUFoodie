@@ -7,13 +7,14 @@
     android:layout_margin="5sp"
     android:focusable="auto"
     android:outlineAmbientShadowColor="@color/colorPrimary"
-    app:cardCornerRadius="20dp">
+    android:outlineSpotShadowColor="@color/colorPrimary"
+    app:cardCornerRadius="20dp"
+    app:cardUseCompatPadding="true">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/img"
         android:layout_width="match_parent"
-        android:layout_height="200sp"
-        android:layout_margin="0sp"
+        android:layout_height="500px"
         tools:srcCompat="@tools:sample/avatars"
 
         />

@@ -4,12 +4,12 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    app:cardUseCompatPadding="true"
     android:layout_margin="5sp">
-    <androidx.appcompat.widget.AppCompatImageView
+    <ImageView
         android:id="@+id/img"
-        android:layout_width="match_parent"
-        android:layout_height="200sp"
-        android:layout_margin="0sp"
+        android:layout_width="500px"
+        android:layout_height="500px"
         tools:srcCompat="@tools:sample/avatars"
 
         />
