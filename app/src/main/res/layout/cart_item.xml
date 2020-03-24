@@ -16,8 +16,8 @@
         >
     <ImageView
         android:id="@+id/image"
-        android:layout_width="120sp"
-        android:layout_height="130sp"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
         android:layout_marginEnd="15dp"
         android:outlineAmbientShadowColor="#000000"
         tools:srcCompat="@tools:sample/avatars"

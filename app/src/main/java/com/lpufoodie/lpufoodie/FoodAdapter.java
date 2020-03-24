@@ -52,7 +52,7 @@ public class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewAdapter> {
         holder.cost.setText(String.valueOf(food.getCost()));
         holder.category.setText(food.getCategory());
         Picasso.get().load(food.getPictureUri())
-                .resize(500,500)
+                .fit()
                 .centerCrop()
                 .into(holder.imageView);
         holder.button.setOnClickListener(new View.OnClickListener() {

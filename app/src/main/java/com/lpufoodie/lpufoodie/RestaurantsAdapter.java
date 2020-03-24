@@ -56,12 +56,11 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewAdapter holder, int position) {
+    public void onBindViewHolder(@NonNull ViewAdapter holder, final int position) {
         final Restaurant res = restaurants.get(position);
         Picasso.get()
                 .load(res.getPictureUri())
-                .resize(1000,500)
-                .centerCrop()
+                .fit()
                 .into(holder.imageView);
 
         holder.name.setText(res.getName());
@@ -69,25 +68,20 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
         holder.rating.setText(String.valueOf(res.getRating()));
         holder.offer.setText(res.getOffer());
         holder.itemView.setVisibility(View.VISIBLE);
+//        MainActivity.mylist.add(FoodMenu.newInstance(res,context,fragmentManager));
+//        final int index  = MainActivity.mylist.size();
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context," " + res.getId(),Toast.LENGTH_LONG).show();
-                replace(FoodMenu.newInstance(res,context,fragmentManager));
+//                Toast.makeText(context," " + index,Toast.LENGTH_LONG).show();
+                MainActivity.vpPager.setCurrentItem(position+4,true);
+
             }
         });
         YoYo.with(Techniques.FadeIn)
                 .duration(700)
                 .playOn(holder.itemView);
     }
-
-    private void replace(Fragment fragment){
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.parent,fragment);
-        fragmentTransaction.commit();
-
-    }
-
 
 
     @Override

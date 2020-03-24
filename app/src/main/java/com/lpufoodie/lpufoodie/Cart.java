@@ -200,7 +200,7 @@ class CartItemAdapter extends ArrayAdapter<Food>{
         });
 
         Picasso.get().load(food.getPictureUri())
-                .resize(500,500)
+                .fit()
                 .centerCrop()
                 .into(image);
         item_name.setText(food.getName());

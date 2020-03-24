@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Account"
+    android:backgroundTintMode="screen"
+    android:background="@color/colorPrimaryDark"
     >
 
   <EditText
@@ -13,7 +15,7 @@
       android:textColor="#000000"
       android:textStyle="bold"
       android:textSize="30sp"
-      android:backgroundTint="#ffffff"
+      style="none"
       android:enabled="false"/>
 
 

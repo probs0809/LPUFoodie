@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".FoodMenu"
     android:id="@+id/rv1"
-    android:background="@color/colorPrimaryDark">
+    android:background="#ffffff">
 
 
 

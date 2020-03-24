@@ -5,11 +5,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     app:cardUseCompatPadding="true"
+    android:backgroundTint="@color/colorPrimaryDark"
+    android:outlineSpotShadowColor="#000000"
+    app:cardCornerRadius="20dp"
+    android:outlineProvider="background"
     android:layout_margin="5sp">
     <ImageView
         android:id="@+id/img"
-        android:layout_width="500px"
-        android:layout_height="500px"
+        android:layout_width="190dp"
+        android:layout_height="190dp"
         tools:srcCompat="@tools:sample/avatars"
 
         />
@@ -50,15 +54,16 @@
 
 
         <ImageButton
-            android:contentDescription="@string/app_name"
             android:id="@+id/button"
-            android:layout_below="@+id/cost"
-            android:layout_alignEnd="@id/cost"
             android:layout_width="50sp"
             android:layout_height="50sp"
+            android:layout_below="@+id/cost"
+            android:layout_alignEnd="@id/cost"
             android:background="#ffffff"
-            android:tooltipText="Add To Cart"
-            android:src="@drawable/ic_add_shopping_cart_24px"/>
+            android:backgroundTint="?android:attr/colorPrimaryDark"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_add_shopping_cart_24px"
+            android:tooltipText="Add To Cart" />
 
 
     </RelativeLayout>

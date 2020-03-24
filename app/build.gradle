@@ -36,4 +36,5 @@ dependencies {
     implementation 'com.crystal:crystalpreloaders:1.0.0'
     implementation 'com.daimajia.easing:library:2.0@aar'
     implementation 'com.daimajia.androidanimations:library:2.3@aar'
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 }

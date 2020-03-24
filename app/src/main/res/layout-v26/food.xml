@@ -6,15 +6,17 @@
     android:layout_height="350sp"
     android:layout_margin="5sp"
     android:focusable="auto"
+    android:backgroundTint="@color/colorPrimaryDark"
+    android:outlineSpotShadowColor="#000000"
+    android:outlineProvider="background"
     android:outlineAmbientShadowColor="@color/colorPrimary"
-    android:outlineSpotShadowColor="@color/colorPrimary"
     app:cardCornerRadius="20dp"
     app:cardUseCompatPadding="true">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/img"
-        android:layout_width="match_parent"
-        android:layout_height="500px"
+        android:layout_width="190dp"
+        android:layout_height="190dp"
         tools:srcCompat="@tools:sample/avatars"
 
         />
@@ -57,11 +59,14 @@
 
         <ImageButton
             android:id="@+id/button"
+            style="@android:style/Widget.Material.Light.ImageButton"
             android:layout_width="50sp"
             android:layout_height="50sp"
             android:layout_below="@+id/cost"
             android:layout_alignEnd="@id/cost"
             android:background="#ffffff"
+            android:backgroundTint="?attr/actionModeSplitBackground"
+            android:backgroundTintMode="src_atop"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_add_shopping_cart_24px"
             android:tooltipText="Add To Cart" />
