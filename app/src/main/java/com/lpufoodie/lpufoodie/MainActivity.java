@@ -1,69 +1,71 @@
 package com.lpufoodie.lpufoodie;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
     Handler handler ;
-    Button cart;
-    public static List<Fragment> mylist = new ArrayList<>();
     static Set<Food> orders = new HashSet<>();
     static Restaurant restaurant;
     static ViewPager vpPager;
+
+
+    static FloatingActionButton fab ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        handler = new Handler(getMainLooper());
-        cart = findViewById(R.id.go_to_cart);
-        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
-        vpPager = (ViewPager) findViewById(R.id.vpPager);
+        Intent i = new Intent();
+        boolean bg = i.getBooleanExtra("Cart",false);
+
+        handler = new Handler(getMainLooper());
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        fab = findViewById(R.id.fab);
+
+        vpPager = findViewById(R.id.vpPager);
         MyPagerAdapter adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
 
-//        replace(Home.newInstance(MainActivity.this,MainActivity.this.getSupportFragmentManager()));
+
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.navigation_home:
-//                        replace(Home.newInstance(MainActivity.this,MainActivity.this.getSupportFragmentManager()));
                         vpPager.setCurrentItem(0,true);
+
                         return true;
                     case R.id.navigation_search:
                         vpPager.setCurrentItem(1,true);
-                        cart.setVisibility(View.GONE);
+
                         return true;
                     case R.id.navigation_cart:
                         vpPager.setCurrentItem(2,true);
-                        cart.setVisibility(View.GONE);
+
                         return true;
                     case R.id.navigation_account:
                         vpPager.setCurrentItem(3,true);
-                        cart.setVisibility(View.GONE);
-                        ;
+
                         return true;
                     default:
                         break;
@@ -83,71 +85,51 @@ public class MainActivity extends AppCompatActivity {
                 .playOn(findViewById(R.id.header));
 
 
+        vpPager.setCurrentItem(bg ? 2 : 0,true);
 
     }
 
-    int count = 0;
     @Override
     public void onBackPressed() {
-
-        count++;
         vpPager.setCurrentItem(0,true);
-        if(count > 2){
-            System.exit(0);
-        }
-    }
-
-    public void goToCart(View view) {
-        vpPager.setCurrentItem(0,true);
-        System.out.println(MainActivity.orders.size());
-        cart.setVisibility(View.GONE);
     }
 
 
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
-        private int NUM_ITEMS = 100;
 
-
-        public MyPagerAdapter(FragmentManager fragmentManager) {
-            super(fragmentManager);
-            mylist.add((Home.newInstance(MainActivity.this,MainActivity.this.getSupportFragmentManager())));
-            mylist.add((Search.newInstance("","")));
-            mylist.add((Cart.newInstance("","")));
-            mylist.add((Account.newInstance("","")));
+        public MyPagerAdapter(@NonNull FragmentManager fm) {
+            super(fm);
         }
 
         // Returns total number of pages.
         @Override
         public int getCount() {
-            return NUM_ITEMS;
+            return 4;
         }
 
         // Returns the fragment to display for a particular page.
+        @NonNull
         @Override
         public Fragment getItem(int position) {
 
-
-
-            switch (position) {
-                case 0:
-                    return mylist.get(0);
+            switch (position){
                 case 1:
-                    cart.setVisibility(View.GONE);
-                    return mylist.get(1);
+                    return Search.newInstance("","");
                 case 2:
-                    cart.setVisibility(View.GONE);
-                    return mylist.get(2);
+                    return Cart.newInstance("","");
                 case 3:
-                    cart.setVisibility(View.GONE);
-                    return mylist.get(3);
-
+                    return Account.newInstance("","");
                 default:
-                    cart.setVisibility(View.GONE);
-
-
+                    return Home.newInstance(MainActivity.this,MainActivity.this.getSupportFragmentManager());
             }
-            return mylist.get(position);
+
+
+        }
+
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
         }
 
         // Returns the page title for the top indicator
@@ -155,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return "Tab " + position;
         }
+
 
     }
 }

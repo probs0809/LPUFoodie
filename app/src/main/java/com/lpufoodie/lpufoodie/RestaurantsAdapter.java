@@ -1,6 +1,7 @@
 package com.lpufoodie.lpufoodie;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,13 +69,12 @@ public class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.
         holder.rating.setText(String.valueOf(res.getRating()));
         holder.offer.setText(res.getOffer());
         holder.itemView.setVisibility(View.VISIBLE);
-//        MainActivity.mylist.add(FoodMenu.newInstance(res,context,fragmentManager));
-//        final int index  = MainActivity.mylist.size();
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(context," " + index,Toast.LENGTH_LONG).show();
-                MainActivity.vpPager.setCurrentItem(position+4,true);
+                FoodMenu.newInstance(res,context,fragmentManager);
+                Intent i = new Intent(context,FoodMenu.class);
+                context.startActivity(i);
 
             }
         });

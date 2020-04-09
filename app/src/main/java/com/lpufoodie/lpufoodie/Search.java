@@ -10,10 +10,11 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
+
+import static com.lpufoodie.lpufoodie.MainActivity.fab;
 
 
 public class Search extends Fragment  implements MaterialSearchBar.OnSearchActionListener{
@@ -48,6 +49,8 @@ public class Search extends Fragment  implements MaterialSearchBar.OnSearchActio
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        fab.hide();
+
     }
 
     @Override

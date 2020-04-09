@@ -1,20 +1,18 @@
 package com.lpufoodie.lpufoodie;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,10 +22,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
-public class FoodMenu extends Fragment {
+public class FoodMenu extends AppCompatActivity {
     private static Restaurant ARG_PARAM1;
     private static Context ARG_PARAM2;
     private static FragmentManager ARG_PARAM3;
@@ -37,39 +34,29 @@ public class FoodMenu extends Fragment {
     private FragmentManager fragmentManager;
     private RecyclerView rv;
 
-    public FoodMenu() {
-        // Required empty public constructor
-    }
-    public static FoodMenu newInstance(Restaurant param1, Context context, FragmentManager fragmentManager) {
-        FoodMenu fragment = new FoodMenu();
-        Bundle args = new Bundle();
+    Button cart ;
+
+    public static void newInstance(Restaurant param1, Context context, FragmentManager fragmentManager) {
         ARG_PARAM1 = param1;
         ARG_PARAM2 = context;
         ARG_PARAM3 = fragmentManager;
-        fragment.setArguments(args);
-        return fragment;
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            this.restaurant = ARG_PARAM1;
-            this.context = ARG_PARAM2;
-            this.fragmentManager = ARG_PARAM3;
-
-        }
+        setContentView(R.layout.fragment_food_menu);
+        this.restaurant = ARG_PARAM1;
+        this.context = ARG_PARAM2;
+        this.fragmentManager = ARG_PARAM3;
         MainActivity.restaurant = null;
-    }
+        cart = findViewById(R.id.go_to_cart);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        final View view = inflater.inflate(R.layout.fragment_food_menu, container, false);
-        view.setVisibility(View.INVISIBLE);
-        rv = view.findViewById(R.id.rv1);
+        rv = findViewById(R.id.rv1);
+        rv.setVisibility(View.INVISIBLE);
         rv.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
         rv.setLayoutManager(layoutManager);
         rv.setItemAnimator(new DefaultItemAnimator());
 
@@ -83,9 +70,9 @@ public class FoodMenu extends Fragment {
                     food.add(rDataSnap.getValue(Food.class));
                 }
 
-                FoodAdapter ra = new FoodAdapter(food, getContext(), fragmentManager,(Button) Objects.requireNonNull(getActivity()).findViewById(R.id.go_to_cart));
+                FoodAdapter ra = new FoodAdapter(food, getApplicationContext(), fragmentManager, (Button) findViewById(R.id.go_to_cart));
                 rv.setAdapter(ra);
-                view.setVisibility(View.VISIBLE);
+                rv.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -93,20 +80,13 @@ public class FoodMenu extends Fragment {
 
             }
         });
-
-        return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
 
+
+    public void goToCart(View view) {
+        Intent i = new Intent(FoodMenu.this ,MainActivity.class);
+        i.putExtra("Cart",true);
+        startActivity(i);
+    }
 }

@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.lpufoodie.lpufoodie.MainActivity.fab;
+
 
 public class Cart extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -40,7 +42,6 @@ public class Cart extends Fragment {
 
     Handler handler = new Handler(Looper.getMainLooper());
     public Cart() {
-        // Required empty public constructor
     }
 
 
@@ -60,6 +61,8 @@ public class Cart extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        fab.hide();
+
     }
 
     @Override
