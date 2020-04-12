@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:cardUseCompatPadding="true"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5sp"
     android:backgroundTint="@color/colorPrimaryDark"
+    android:outlineProvider="background"
     android:outlineSpotShadowColor="#000000"
     app:cardCornerRadius="20dp"
-    android:outlineProvider="background"
-    android:layout_margin="5sp">
+    app:cardUseCompatPadding="true">
+
     <ImageView
         android:id="@+id/img"
         android:layout_width="190dp"
@@ -17,13 +18,14 @@
         tools:srcCompat="@tools:sample/avatars"
 
         />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="10sp"
         android:layout_marginTop="200sp"
         android:layout_marginEnd="10sp"
-        android:layout_marginStart="10sp"
-        android:layout_gravity="bottom"
 
         >
 
@@ -31,26 +33,26 @@
             android:id="@+id/category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="10sp"
-            />
+            android:textSize="10sp" />
+
         <TextView
             android:id="@+id/name"
-            android:layout_below="@id/category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/category"
             android:text="Sample Restaurant"
             android:textColor="#000000"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/cost"
-            android:layout_below="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
             android:text="cost"
             android:textColor="#000000"
-            android:textSize="15sp"
-            />
+            android:textSize="15sp" />
 
 
         <ImageButton

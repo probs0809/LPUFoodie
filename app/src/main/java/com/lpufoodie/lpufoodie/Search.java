@@ -2,9 +2,6 @@ package com.lpufoodie.lpufoodie;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -12,21 +9,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
-import static com.lpufoodie.lpufoodie.MainActivity.fab;
 
-
-public class Search extends Fragment  implements MaterialSearchBar.OnSearchActionListener{
+public class Search extends Fragment implements MaterialSearchBar.OnSearchActionListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    MaterialSearchBar searchBar;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    MaterialSearchBar searchBar;
 
 
     public Search() {
@@ -49,7 +45,6 @@ public class Search extends Fragment  implements MaterialSearchBar.OnSearchActio
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        fab.hide();
 
     }
 
@@ -57,7 +52,7 @@ public class Search extends Fragment  implements MaterialSearchBar.OnSearchActio
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_search,container,false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         searchBar = view.findViewById(R.id.searchBar);
         searchBar.setOnSearchActionListener(this);
@@ -101,7 +96,7 @@ public class Search extends Fragment  implements MaterialSearchBar.OnSearchActio
 
     @Override
     public void onSearchConfirmed(CharSequence text) {
-        Toast.makeText(getContext(),text.toString(),Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), text.toString(), Toast.LENGTH_LONG).show();
     }
 
     @Override

@@ -11,4 +11,10 @@
     <string name="quantity">Quantity :</string>
     <string name="clear_cart">Clear Cart</string>
     <string name="proceed">Proceed</string>
+
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="tagline">Because food is the new religion</string>
+    <string name="login_with_google">Login With Google</string>
 </resources>

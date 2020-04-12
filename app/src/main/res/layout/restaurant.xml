@@ -4,17 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginStart="5sp"
+    android:layout_marginTop="8sp"
+    android:layout_marginEnd="7sp"
     android:backgroundTint="@color/colorPrimaryDark"
     android:outlineAmbientShadowColor="#000000"
     android:outlineSpotShadowColor="#000000"
-    tools:ignore="UnusedAttribute"
-    android:layout_marginStart="5sp"
-    android:layout_marginEnd="7sp"
-    android:layout_marginTop="8sp"
     app:cardCornerRadius="20dp"
     app:cardPreventCornerOverlap="true"
     app:cardUseCompatPadding="true"
-    >
+    tools:ignore="UnusedAttribute">
 
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -22,15 +21,15 @@
         android:layout_width="match_parent"
         android:layout_height="190dp"
         android:layout_marginBottom="1sp"
-        tools:srcCompat="@tools:sample/avatars"
-        />
+        tools:srcCompat="@tools:sample/avatars" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="195sp"
-        android:layout_marginEnd="10sp"
+        android:layout_gravity="bottom"
         android:layout_marginStart="10sp"
-        android:layout_gravity="bottom">
+        android:layout_marginTop="195sp"
+        android:layout_marginEnd="10sp">
 
         <TextView
             android:id="@+id/name"
@@ -39,47 +38,77 @@
             android:text="Sample Restaurant"
             android:textColor="#000000"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/subtitle"
-            android:layout_below="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/name"
             android:text="Pizza"
             android:textColor="#000000"
-            android:textSize="15sp"
-            />
+            android:textSize="15sp" />
 
 
         <LinearLayout
             android:id="@+id/ll2"
-            android:layout_below="@id/subtitle"
             android:layout_width="match_parent"
             android:layout_height="20sp"
-            >
+            android:layout_below="@id/subtitle">
 
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <ImageView
+                android:id="@+id/st1"
                 android:layout_width="20sp"
                 android:layout_height="20sp"
-                app:srcCompat="@android:drawable/btn_star_big_on" />
+                android:src="@drawable/ic_rate"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/st2"
+                android:layout_width="20sp"
+                android:layout_height="20sp"
+                android:src="@drawable/ic_rate"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/st3"
+                android:layout_width="20sp"
+                android:layout_height="20sp"
+                android:src="@drawable/ic_rate"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/st4"
+                android:layout_width="20sp"
+                android:layout_height="20sp"
+                android:src="@drawable/ic_rate"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/st5"
+                android:layout_width="20sp"
+                android:layout_height="20sp"
+                android:src="@drawable/ic_rate"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/rating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="4.5"
-                android:layout_marginStart="5sp"/>
+                android:layout_marginStart="5sp"
+                android:text="4.5" />
         </LinearLayout>
+
         <TextView
             android:id="@+id/offer"
-            android:layout_below="@+id/ll2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sample Restaurant"
+            android:layout_below="@+id/ll2"
             android:layout_marginBottom="4sp"
+            android:text="Sample Restaurant"
             android:textColor="#ff0021"
-            android:textSize="15sp"
-            />
+            android:textSize="15sp" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

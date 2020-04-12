@@ -3,10 +3,13 @@ package com.lpufoodie.lpufoodie;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Consumer;
+import androidx.core.util.Predicate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -14,64 +17,65 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.gms.common.util.BiConsumer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
-    BottomNavigationView bottomNavigationView;
-    Handler handler ;
+public class MainActivity extends AppCompatActivity implements LpuFoodie {
     static Set<Food> orders = new HashSet<>();
     static Restaurant restaurant;
     static ViewPager vpPager;
+    BottomNavigationView bottomNavigationView;
+    Handler handler;
+    float dX;
+    float dY;
+    int lastAction;
 
-
-    static FloatingActionButton fab ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Intent i = new Intent();
-        boolean bg = i.getBooleanExtra("Cart",false);
+        boolean bg = i.getBooleanExtra("Cart", false);
 
         handler = new Handler(getMainLooper());
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        fab = findViewById(R.id.fab);
 
         vpPager = findViewById(R.id.vpPager);
         MyPagerAdapter adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
 
+        bottomNavigationView.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    vpPager.setCurrentItem(0, true);
+                    return true;
 
+                case R.id.navigation_search:
+                    vpPager.setCurrentItem(1, true);
+                    return true;
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.navigation_home:
-                        vpPager.setCurrentItem(0,true);
+                case R.id.navigation_cart:
+                    vpPager.setCurrentItem(2, true);
+                    return true;
 
-                        return true;
-                    case R.id.navigation_search:
-                        vpPager.setCurrentItem(1,true);
+                case R.id.navigation_account:
+                    vpPager.setCurrentItem(3, true);
+                    return true;
 
-                        return true;
-                    case R.id.navigation_cart:
-                        vpPager.setCurrentItem(2,true);
-
-                        return true;
-                    case R.id.navigation_account:
-                        vpPager.setCurrentItem(3,true);
-
-                        return true;
-                    default:
-                        break;
-                }
-                return false;
+                default:
+                    break;
             }
+            return false;
         });
 
         YoYo.with(Techniques.BounceInUp)
@@ -84,21 +88,79 @@ public class MainActivity extends AppCompatActivity {
                 .repeat(1)
                 .playOn(findViewById(R.id.header));
 
+        vpPager.setCurrentItem(bg ? 2 : 0, true);
 
-        vpPager.setCurrentItem(bg ? 2 : 0,true);
+        FloatingActionButton fab = findViewById(R.id.fab);
+        setFab.accept(LF_User.get(),fab);
 
+
+        fab.setOnTouchListener((view, event) -> {
+            switch (event.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                    dX = view.getX() - event.getRawX();
+                    dY = view.getY() - event.getRawY();
+
+                    lastAction = MotionEvent.ACTION_DOWN;
+                    break;
+
+                case MotionEvent.ACTION_MOVE:
+                    view.setY(event.getRawY() + dY);
+//                    view.setX(event.getRawX() + dX);
+                    lastAction = MotionEvent.ACTION_MOVE;
+                    break;
+
+                case MotionEvent.ACTION_UP:
+                    if (lastAction == MotionEvent.ACTION_DOWN)
+                        locate(view);
+                    break;
+
+                default:
+                    return false;
+            }
+            return true;
+        });
     }
 
+    BiConsumer<FirebaseUser,FloatingActionButton> setFab = (u,fab) -> {
+        LF_DatabaseReference.apply("Users/"+u.getUid()).child("orders").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Boolean b = dataSnapshot.getValue(Boolean.class);
+                assert b != null;
+                if (b.equals(Boolean.FALSE)){
+                    fab.hide();
+                }else{
+                    fab.show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    };
     @Override
     public void onBackPressed() {
-        vpPager.setCurrentItem(0,true);
+        vpPager.setCurrentItem(0, true);
     }
 
+    public void locate(View view) {
+        Snackbar.make(findViewById(R.id.mainActivity), "Please do nothing", Snackbar.LENGTH_SHORT).setAction("Retry", view1 -> {
 
+        }).show();
+    }
+
+    public void logout(View view) {
+        mAuth.signOut();
+        LF_GoogleSignInClient.apply(this).signOut().addOnCompleteListener(this, task -> {
+            vpPager.setCurrentItem(0,true);
+        });
+    }
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
-        public MyPagerAdapter(@NonNull FragmentManager fm) {
+        MyPagerAdapter(@NonNull FragmentManager fm) {
             super(fm);
         }
 
@@ -113,15 +175,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
 
-            switch (position){
+            switch (position) {
                 case 1:
-                    return Search.newInstance("","");
+                    return Search.newInstance("", "");
                 case 2:
-                    return Cart.newInstance("","");
+                    return new Cart();
                 case 3:
-                    return Account.newInstance("","");
+                    return new Account();
                 default:
-                    return Home.newInstance(MainActivity.this,MainActivity.this.getSupportFragmentManager());
+                    return Home.newInstance(MainActivity.this.getSupportFragmentManager());
             }
 
 
@@ -141,5 +203,3 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
-
-

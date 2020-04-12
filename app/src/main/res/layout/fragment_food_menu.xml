@@ -1,28 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FoodMenu"
-    android:background="#ffffff">
+    android:background="#ffffff"
+    tools:context=".FoodMenu">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".FoodMenu"
-        android:id="@+id/rv1">
+        tools:context=".FoodMenu">
 
     </androidx.recyclerview.widget.RecyclerView>
+
+    <com.crystal.crystalpreloaders.widgets.CrystalPreloader
+        android:id="@+id/loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        app:crs_pl_bg_color="#fff"
+        app:crs_pl_fg_color="@color/colorPrimaryDark"
+        app:crs_pl_size="large"
+        app:crs_pl_style="ball_scale" />
+
     <Button
+        android:id="@+id/go_to_cart"
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        android:onClick="goToCart"
         android:text="@string/go_to_cart"
         android:textStyle="bold"
-        android:onClick="goToCart"
-        android:id="@+id/go_to_cart"
-        android:layout_gravity="bottom"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:background="@color/colorPrimary"
-        android:layout_height="50sp"
-        android:layout_alignParentBottom="true"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

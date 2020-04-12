@@ -3,6 +3,8 @@ package com.lpufoodie.lpufoodie;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,36 +13,29 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
-import android.widget.Button;
-
+import com.crystal.crystalpreloaders.widgets.CrystalPreloader;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class FoodMenu extends AppCompatActivity {
+public class FoodMenu extends AppCompatActivity implements LpuFoodie {
     private static Restaurant ARG_PARAM1;
     private static Context ARG_PARAM2;
     private static FragmentManager ARG_PARAM3;
-
+    Button cart;
     private Restaurant restaurant;
     private Context context;
     private FragmentManager fragmentManager;
     private RecyclerView rv;
 
-    Button cart ;
-
     public static void newInstance(Restaurant param1, Context context, FragmentManager fragmentManager) {
         ARG_PARAM1 = param1;
         ARG_PARAM2 = context;
         ARG_PARAM3 = fragmentManager;
-
     }
 
     @Override
@@ -61,18 +56,20 @@ public class FoodMenu extends AppCompatActivity {
         rv.setItemAnimator(new DefaultItemAnimator());
 
         final List<Food> food = new ArrayList<>();
-        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Foods/"+this.restaurant.getId());
+        CrystalPreloader cp = findViewById(R.id.loader);
         MainActivity.restaurant = this.restaurant;
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        LF_DatabaseReference.apply("Foods/" + this.restaurant.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot rDataSnap: dataSnapshot.getChildren()) {
+                cp.setVisibility(View.VISIBLE);
+                for (DataSnapshot rDataSnap : dataSnapshot.getChildren()) {
                     food.add(rDataSnap.getValue(Food.class));
                 }
 
-                FoodAdapter ra = new FoodAdapter(food, getApplicationContext(), fragmentManager, (Button) findViewById(R.id.go_to_cart));
+                FoodAdapter ra = new FoodAdapter(food, getApplicationContext(), fragmentManager, findViewById(R.id.go_to_cart));
                 rv.setAdapter(ra);
                 rv.setVisibility(View.VISIBLE);
+                cp.setVisibility(View.GONE);
             }
 
             @Override
@@ -80,13 +77,12 @@ public class FoodMenu extends AppCompatActivity {
 
             }
         });
+
     }
 
-
-
     public void goToCart(View view) {
-        Intent i = new Intent(FoodMenu.this ,MainActivity.class);
-        i.putExtra("Cart",true);
+        Intent i = new Intent(FoodMenu.this, MainActivity.class);
+        i.putExtra("Cart", true);
         startActivity(i);
     }
 }

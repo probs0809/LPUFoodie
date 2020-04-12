@@ -12,7 +12,7 @@ public class Restaurant {
     private String offer;
     private ArrayList<Food> foods = new ArrayList<>();
 
-    public Restaurant(){
+    public Restaurant() {
 
     }
 
@@ -20,28 +20,28 @@ public class Restaurant {
         return this.name;
     }
 
-    public double getRating() {
-        return rating;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public ArrayList<Food> getFoods() {
-        return foods;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public double getRating() {
+        return rating;
     }
 
     public void setRating(double rating) {
         this.rating = rating;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public ArrayList<Food> getFoods() {
+        return foods;
     }
 
     public void addFoods(Food foods) {
@@ -80,3 +80,5 @@ public class Restaurant {
         this.offer = offer;
     }
 }
+
+
