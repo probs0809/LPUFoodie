@@ -17,14 +17,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 interface LpuFoodie {
     int RC_SIGN_IN = 9001;
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseAuth LF_Auth = FirebaseAuth.getInstance();
 
-    Function<View, YoYo.YoYoString> fadeIn = YoYo.with(Techniques.FadeIn).delay(500).duration(700)::playOn;
+    Set<Food> LF_Orders = new HashSet<>();
+
+    Function<View, YoYo.YoYoString> LF_FadeInAnimation = YoYo.with(Techniques.FadeIn).delay(500).duration(700)::playOn;
 
     BiConsumer<String, ImageView> LF_LoadImage = (uri, imageView) -> Picasso.get().load(uri).fit().centerCrop().into(imageView);
 
@@ -37,7 +42,9 @@ interface LpuFoodie {
     };
 
     Supplier<FirebaseUser> LF_User = () -> FirebaseAuth.getInstance().getCurrentUser();
+
     Function<String, DatabaseReference> LF_DatabaseReference = FirebaseDatabase.getInstance()::getReference;
 
+    java.util.function.Function<List<Food>,Double> LF_FinalSumFood = foods -> foods.stream().mapToDouble(food -> food.getCount()*food.getCost()).sum();
 
 }

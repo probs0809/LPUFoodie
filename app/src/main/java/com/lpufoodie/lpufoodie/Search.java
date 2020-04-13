@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 
 
@@ -72,6 +73,25 @@ public class Search extends Fragment implements MaterialSearchBar.OnSearchAction
 
             }
 
+        });
+
+        searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
+            String text;
+            @Override
+            public void onSearchStateChanged(boolean enabled) {
+
+            }
+
+            @Override
+            public void onSearchConfirmed(CharSequence text) {
+                Snackbar.make(getActivity().findViewById(R.id.mainActivity),text,Snackbar.LENGTH_LONG).show();
+                this.text = text.toString();
+            }
+
+            @Override
+            public void onButtonClicked(int buttonCode) {
+                Snackbar.make(getActivity().findViewById(R.id.mainActivity),text,Snackbar.LENGTH_LONG).show();
+            }
         });
         return view;
 

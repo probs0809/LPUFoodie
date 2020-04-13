@@ -12,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,12 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 class CartItemAdapter extends ArrayAdapter<Food> implements LpuFoodie {
-    double finalCost = 0;
-    List<Integer> lastCount = new ArrayList<>();
     Context context;
     private List<Food> cartList;
 
@@ -36,10 +32,6 @@ class CartItemAdapter extends ArrayAdapter<Food> implements LpuFoodie {
         this.cartList = cartList;
         this.context = context;
         System.out.println(cartList.size());
-        for (Food c : cartList) {
-            lastCount.add(0);
-        }
-
     }
 
     @Override
@@ -58,21 +50,23 @@ class CartItemAdapter extends ArrayAdapter<Food> implements LpuFoodie {
         TextView item_name = rowView.findViewById(R.id.item_name);
         TextView item_cost = rowView.findViewById(R.id.item_cost);
         Spinner spinner = rowView.findViewById(R.id.item_quantity);
-        final Integer integer[] = new Integer[]{1, 2, 3, 4, 5};
+        final Integer[] integer = new Integer[]{1, 2, 3, 4, 5};
         ArrayAdapter<Integer> aa = new ArrayAdapter<>(this.context, R.layout.support_simple_spinner_dropdown_item, integer);
         aa.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner.setAdapter(aa);
 
+        LF_LoadImage.accept(food.getPictureUri(), image);
+        item_name.setText(food.getName());
+        restaurant_name.setText(MainActivity.restaurant.getName());
+        item_cost.setText(("Rs." + food.getCost()));
+        LF_FadeInAnimation.apply(rowView);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (lastCount.get(position) != 0) {
-                    finalCost -= lastCount.get(position) * food.getCost();
-                }
-                finalCost += food.getCost() * integer[i];
-                lastCount.add(position, integer[i]);
-                Toast.makeText(context, "" + finalCost, Toast.LENGTH_LONG).show();
-                Cart.cartValue.setText("Final Value : \t " + finalCost);
+                item_cost.setText(("Rs." + (food.getCost()*integer[i])));
+                cartList.get(position).setCount(integer[i]);
+                Cart.cartValue.setText(("Final Value : \t " + LF_FinalSumFood.apply(cartList)));
             }
 
             @Override
@@ -80,12 +74,6 @@ class CartItemAdapter extends ArrayAdapter<Food> implements LpuFoodie {
 
             }
         });
-
-        LF_LoadImage.accept(food.getPictureUri(), image);
-        item_name.setText(food.getName());
-        restaurant_name.setText(MainActivity.restaurant.getName());
-        item_cost.setText("Rs." + food.getCost());
-        fadeIn.apply(rowView);
 
         return rowView;
     }
@@ -99,7 +87,7 @@ class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewAdapter> implemen
     private FragmentManager fragmentManager;
 
     FoodAdapter(List<Food> foodList, Context context, FragmentManager fragmentManager, Button button) {
-        MainActivity.orders.clear();
+        MainActivity.LF_Orders.clear();
         this.foodList = foodList;
         this.context = context;
         this.fragmentManager = fragmentManager;
@@ -122,7 +110,7 @@ class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewAdapter> implemen
         holder.category.setText(food.getCategory());
         LF_LoadImage.accept(food.getPictureUri(), holder.imageView);
         holder.button.setOnClickListener(view -> {
-            MainActivity.orders.add(food);
+            MainActivity.LF_Orders.add(food);
             cart.findViewById(R.id.go_to_cart).setVisibility(View.VISIBLE);
         });
         YoYo.with(Techniques.FadeInUp)
@@ -192,7 +180,7 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewAda
             Intent i = new Intent(context, FoodMenu.class);
             context.startActivity(i);
         });
-        fadeIn.apply(holder.itemView);
+        LF_FadeInAnimation.apply(holder.itemView);
     }
 
     @Override
@@ -220,9 +208,4 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewAda
             st[4] = itemView.findViewById(R.id.st5);
         }
     }
-
 }
-
-
-
-

@@ -3,32 +3,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#ffffff"
     tools:context=".Cart">
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/empty"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         >
 
         <View
+            android:id="@+id/lgic"
             android:layout_width="200sp"
             android:layout_height="200sp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="100sp"
             android:background="@drawable/ic_restaurant_24px"
-            android:backgroundTint="@color/colorPrimary" />
+            android:backgroundTint="@color/colorPrimary"
+            app:layout_constraintBottom_toTopOf="@id/lgtxt"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
+            android:id="@+id/lgtxt"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Hey Foodie, Your Cart Is Empty :("
             android:textSize="30sp"
-            android:textStyle="bold" />
-    </FrameLayout>
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lgic"/>/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ListView
         android:id="@+id/lv1"

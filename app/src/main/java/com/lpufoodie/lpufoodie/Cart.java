@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 
 public class Cart extends Fragment {
@@ -47,7 +46,7 @@ public class Cart extends Fragment {
         set.start();
 
         view.findViewById(R.id.clear_cart).setOnClickListener(v -> {
-            MainActivity.orders.clear();
+            MainActivity.LF_Orders.clear();
             setCart(view);
         });
         return view;
@@ -55,12 +54,13 @@ public class Cart extends Fragment {
 
     private void setCart(View view) {
         List<Food> cartList;
-        if (!MainActivity.orders.isEmpty()) {
-            cartList = new ArrayList<>(MainActivity.orders);
+        if (!MainActivity.LF_Orders.isEmpty()) {
+            cartList = new ArrayList<>(MainActivity.LF_Orders);
             CartItemAdapter cartItemAdapter = new CartItemAdapter(Objects.requireNonNull(getContext()), R.layout.cart_item, cartList);
             listView.setAdapter(cartItemAdapter);
             changeVisibility
                     .accept(Boolean.TRUE,view);
+
         } else {
             changeVisibility
                     .accept(Boolean.FALSE,view);

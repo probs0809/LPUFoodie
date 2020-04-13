@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 
 public class Home extends Fragment implements LpuFoodie {
-    static CrystalPreloader crystalPreloader;
+    private static CrystalPreloader crystalPreloader;
     @SuppressLint("StaticFieldLeak")
     private static Context ARG_PARAM1;
     private static FragmentManager ARG_PARAM2;

@@ -7,6 +7,7 @@ public class Food {
     private String pictureUri;
     private boolean type;
     private String category;
+    private int count;
 
     public Food() {
 
@@ -47,5 +48,14 @@ public class Food {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 }

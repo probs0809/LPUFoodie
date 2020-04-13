@@ -8,8 +8,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.util.Consumer;
-import androidx.core.util.Predicate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -26,12 +24,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
-
 public class MainActivity extends AppCompatActivity implements LpuFoodie {
-    static Set<Food> orders = new HashSet<>();
     static Restaurant restaurant;
     static ViewPager vpPager;
     BottomNavigationView bottomNavigationView;
@@ -46,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements LpuFoodie {
         setContentView(R.layout.activity_main);
         Intent i = new Intent();
         boolean bg = i.getBooleanExtra("Cart", false);
-
         handler = new Handler(getMainLooper());
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -95,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements LpuFoodie {
 
 
         fab.setOnTouchListener((view, event) -> {
+            view.performClick();
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     dX = view.getX() - event.getRawX();
@@ -117,12 +110,16 @@ public class MainActivity extends AppCompatActivity implements LpuFoodie {
                 default:
                     return false;
             }
+
             return true;
         });
     }
 
+
+
     BiConsumer<FirebaseUser,FloatingActionButton> setFab = (u,fab) -> {
-        LF_DatabaseReference.apply("Users/"+u.getUid()).child("orders").addValueEventListener(new ValueEventListener() {
+        if(u != null)
+            LF_DatabaseReference.apply("Users/"+u.getUid()).child("orders").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Boolean b = dataSnapshot.getValue(Boolean.class);
@@ -146,16 +143,12 @@ public class MainActivity extends AppCompatActivity implements LpuFoodie {
     }
 
     public void locate(View view) {
-        Snackbar.make(findViewById(R.id.mainActivity), "Please do nothing", Snackbar.LENGTH_SHORT).setAction("Retry", view1 -> {
-
-        }).show();
+        Snackbar.make(findViewById(R.id.mainActivity), "Feature Not Yet Available", Snackbar.LENGTH_SHORT).setAction("Retry", view1 -> { }).show();
     }
 
     public void logout(View view) {
-        mAuth.signOut();
-        LF_GoogleSignInClient.apply(this).signOut().addOnCompleteListener(this, task -> {
-            vpPager.setCurrentItem(0,true);
-        });
+        LF_Auth.signOut();
+        LF_GoogleSignInClient.apply(this).signOut().addOnCompleteListener(this, task -> vpPager.setCurrentItem(0,true));
     }
 
     public class MyPagerAdapter extends FragmentPagerAdapter {

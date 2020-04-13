@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,6 +60,7 @@ public class FoodMenu extends AppCompatActivity implements LpuFoodie {
         final List<Food> food = new ArrayList<>();
         CrystalPreloader cp = findViewById(R.id.loader);
         MainActivity.restaurant = this.restaurant;
+
         LF_DatabaseReference.apply("Foods/" + this.restaurant.getId()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
