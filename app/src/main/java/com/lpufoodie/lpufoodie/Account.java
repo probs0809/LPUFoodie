@@ -23,7 +23,6 @@ import java.util.Objects;
 
 public class Account extends Fragment implements LpuFoodie {
     public Account() {
-        // Required empty public constructor
     }
 
     @Override
@@ -32,9 +31,7 @@ public class Account extends Fragment implements LpuFoodie {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_account, container, false);
         TextView name = v.findViewById(R.id.name), number_email = v.findViewById(R.id.email_number);
         FirebaseUser user = LF_User.get();
@@ -53,26 +50,20 @@ public class Account extends Fragment implements LpuFoodie {
 
                 }
             }))).start();
-        }
-        else
+        } else
             startActivity(new Intent(getActivity(), LoginActivity.class));
         return v;
     }
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
     }
-
-
-
 }
 
 class UserData {
@@ -81,4 +72,3 @@ class UserData {
     UserData() {
     }
 }
-

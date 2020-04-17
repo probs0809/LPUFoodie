@@ -22,46 +22,27 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-
 public class Home extends Fragment implements LpuFoodie {
-    private static CrystalPreloader crystalPreloader;
     @SuppressLint("StaticFieldLeak")
-    private static Context ARG_PARAM1;
-    private static FragmentManager ARG_PARAM2;
     private FragmentManager fragmentManager;
-    private RecyclerView rv;
-    private RecyclerView.LayoutManager layoutManager;
 
-    public Home() {
-        // Required empty public constructor
-    }
-
-    static Home newInstance(FragmentManager param2) {
-        Home fragment = new Home();
-        Bundle args = new Bundle();
-        ARG_PARAM2 = param2;
-        fragment.setArguments(args);
-
-        return fragment;
+    public Home(FragmentManager fragmentManager){
+        this.fragmentManager = fragmentManager;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            fragmentManager = ARG_PARAM2;
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_home, container, false);
-        crystalPreloader = getActivity().findViewById(R.id.loader);
+        CrystalPreloader crystalPreloader = getActivity().findViewById(R.id.loader);
         view.setVisibility(View.INVISIBLE);
-        rv = view.findViewById(R.id.rv1);
+        RecyclerView rv = view.findViewById(R.id.rv1);
         rv.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(getActivity());
-        rv.setLayoutManager(layoutManager);
+        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         rv.setItemAnimator(new DefaultItemAnimator());
         crystalPreloader.setVisibility(View.VISIBLE);
         RestaurantDataLoader rd = new RestaurantDataLoader();
@@ -94,6 +75,3 @@ public class Home extends Fragment implements LpuFoodie {
 
     }
 }
-
-
-

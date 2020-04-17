@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 class CartItemAdapter extends ArrayAdapter<Food> implements LpuFoodie {
-    Context context;
+    private Context context;
 
     public CartItemAdapter(@NonNull Context context, int resource) {
         super(context, resource, new ArrayList<>(LF_Orders));
@@ -64,7 +64,7 @@ class CartItemAdapter extends ArrayAdapter<Food> implements LpuFoodie {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                item_cost.setText(("Rs." + (food.getCost()*integer[i])));
+                item_cost.setText(("Rs." + (food.getCost() * integer[i])));
                 LF_CartList.get(position).setCount(integer[i]);
                 Cart.cartValue.setText(("Final Value : \t " + LF_FinalSumFood.apply(LF_CartList)));
             }
@@ -81,7 +81,7 @@ class CartItemAdapter extends ArrayAdapter<Food> implements LpuFoodie {
 
 class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewAdapter> implements LpuFoodie {
 
-    Button cart;
+    private Button cart;
     private List<Food> foodList;
     private Context context;
     private FragmentManager fragmentManager;

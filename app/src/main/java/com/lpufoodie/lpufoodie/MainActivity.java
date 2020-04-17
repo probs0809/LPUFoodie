@@ -15,14 +15,8 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
-import com.google.android.gms.common.util.BiConsumer;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements LpuFoodie {
     static Restaurant restaurant;
@@ -83,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements LpuFoodie {
         vpPager.setCurrentItem(bg ? 2 : 0, true);
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        setFab.accept(LF_User.get(),fab);
+        setFab.accept(LF_User.get(), fab);
 
 
         fab.setOnTouchListener((view, event) -> {
@@ -116,42 +110,18 @@ public class MainActivity extends AppCompatActivity implements LpuFoodie {
     }
 
 
-
-    BiConsumer<FirebaseUser,FloatingActionButton> setFab = (u,fab) -> {
-        if(u != null)
-            LF_DatabaseReference.apply("Users/"+u.getUid()).child("orders").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Boolean b = dataSnapshot.getValue(Boolean.class);
-                assert b != null;
-                if (b.equals(Boolean.FALSE)){
-                    LF_Booleans.put("orders",false);
-                    fab.hide();
-                }else{
-                    LF_Booleans.put("orders",true);
-                    fab.show();
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    };
     @Override
     public void onBackPressed() {
         vpPager.setCurrentItem(0, true);
     }
 
     public void locate(View view) {
-//        Snackbar.make(findViewById(R.id.mainActivity), "Feature Not Yet Available", Snackbar.LENGTH_SHORT).setAction("Retry", view1 -> { }).show();
-        startActivity(new Intent(MainActivity.this,DeliveryStatus.class));
+       startActivity(new Intent(MainActivity.this, DeliveryStatus.class));
     }
 
     public void logout(View view) {
         LF_Auth.signOut();
-        LF_GoogleSignInClient.apply(this).signOut().addOnCompleteListener(this, task -> vpPager.setCurrentItem(0,true));
+        LF_GoogleSignInClient.apply(this).signOut().addOnCompleteListener(this, task -> vpPager.setCurrentItem(0, true));
     }
 
     public class MyPagerAdapter extends FragmentPagerAdapter {
@@ -160,26 +130,23 @@ public class MainActivity extends AppCompatActivity implements LpuFoodie {
             super(fm);
         }
 
-        // Returns total number of pages.
         @Override
         public int getCount() {
             return 4;
         }
 
-        // Returns the fragment to display for a particular page.
         @NonNull
         @Override
         public Fragment getItem(int position) {
-
             switch (position) {
                 case 1:
-                    return Search.newInstance("", "");
+                    return new Search();
                 case 2:
                     return new Cart();
                 case 3:
                     return new Account();
                 default:
-                    return Home.newInstance(MainActivity.this.getSupportFragmentManager());
+                    return new Home(MainActivity.this.getSupportFragmentManager());
             }
 
 
@@ -190,12 +157,9 @@ public class MainActivity extends AppCompatActivity implements LpuFoodie {
             super.notifyDataSetChanged();
         }
 
-        // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
             return "Tab " + position;
         }
-
-
     }
 }

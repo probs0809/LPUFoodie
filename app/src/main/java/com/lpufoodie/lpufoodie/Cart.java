@@ -16,13 +16,8 @@ import androidx.fragment.app.Fragment;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 
@@ -31,10 +26,16 @@ public class Cart extends Fragment implements LpuFoodie {
     static TextView cartValue;
     private ListView listView;
     private Handler handler = new Handler(Looper.getMainLooper());
+    private BiConsumer<Boolean, View> changeVisibility = (b, view) -> {
+        listView.setVisibility(b ? View.VISIBLE : View.GONE);
+        view.findViewById(R.id.empty).setVisibility(b ? View.GONE : View.VISIBLE);
+        view.findViewById(R.id.bottom_button).setVisibility(b ? View.VISIBLE : View.GONE);
+        cartValue.setVisibility(b ? View.VISIBLE : View.GONE);
+    };
+
 
     public Cart() {
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,14 +58,14 @@ public class Cart extends Fragment implements LpuFoodie {
         });
 
         view.findViewById(R.id.order).setOnClickListener(view1 -> {
-            DatabaseReference dr = LF_DatabaseReference.apply("Users/"+LF_Auth.getUid());
-            if(LF_CartList.size()>0 && LF_Booleans.get("orders") == false){
+            DatabaseReference dr = LF_DatabaseReference.apply("Users/" + LF_Auth.getUid());
+            if (LF_CartList.size() > 0 && !LF_Booleans.get("orders")) {
                 dr.child("orders").setValue(true);
-                LF_CartList.forEach((food)-> dr.child("deliver").child(Objects.requireNonNull(dr.child("deliver").push().getKey())).setValue(food));
+                LF_CartList.forEach((food) -> dr.child("deliver").child(Objects.requireNonNull(dr.child("deliver").push().getKey())).setValue(food));
                 LF_ClearCart.get();
                 setCart(view);
-            }else{
-                Snackbar.make(getActivity().findViewById(R.id.mainActivity),"Your deliveries are on the way",Snackbar.LENGTH_LONG).show();
+            } else {
+                Snackbar.make(getActivity().findViewById(R.id.mainActivity), "Your deliveries are on the way", Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -75,12 +76,9 @@ public class Cart extends Fragment implements LpuFoodie {
         if (!LF_Orders.isEmpty()) {
             CartItemAdapter cartItemAdapter = new CartItemAdapter(Objects.requireNonNull(getContext()), R.layout.cart_item);
             listView.setAdapter(cartItemAdapter);
-            changeVisibility
-                    .accept(Boolean.TRUE,view);
-
+            changeVisibility.accept(Boolean.TRUE, view);
         } else {
-            changeVisibility
-                    .accept(Boolean.FALSE,view);
+            changeVisibility.accept(Boolean.FALSE, view);
             YoYo.with(Techniques.Shake)
                     .repeat(2)
                     .duration(500)
@@ -88,15 +86,8 @@ public class Cart extends Fragment implements LpuFoodie {
         }
     }
 
-    private BiConsumer<Boolean,View> changeVisibility = (b, view) -> {
-        listView.setVisibility(b ? View.VISIBLE : View.GONE);
-        view.findViewById(R.id.empty).setVisibility(b ? View.GONE : View.VISIBLE);
-        view.findViewById(R.id.bottom_button).setVisibility(b ? View.VISIBLE : View.GONE);
-        cartValue.setVisibility(b ? View.VISIBLE : View.GONE);
-    };
-
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
     }
