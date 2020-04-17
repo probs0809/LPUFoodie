@@ -125,8 +125,10 @@ public class MainActivity extends AppCompatActivity implements LpuFoodie {
                 Boolean b = dataSnapshot.getValue(Boolean.class);
                 assert b != null;
                 if (b.equals(Boolean.FALSE)){
+                    LF_Booleans.put("orders",false);
                     fab.hide();
                 }else{
+                    LF_Booleans.put("orders",true);
                     fab.show();
                 }
             }
@@ -143,7 +145,8 @@ public class MainActivity extends AppCompatActivity implements LpuFoodie {
     }
 
     public void locate(View view) {
-        Snackbar.make(findViewById(R.id.mainActivity), "Feature Not Yet Available", Snackbar.LENGTH_SHORT).setAction("Retry", view1 -> { }).show();
+//        Snackbar.make(findViewById(R.id.mainActivity), "Feature Not Yet Available", Snackbar.LENGTH_SHORT).setAction("Retry", view1 -> { }).show();
+        startActivity(new Intent(MainActivity.this,DeliveryStatus.class));
     }
 
     public void logout(View view) {

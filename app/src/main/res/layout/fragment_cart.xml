@@ -73,6 +73,7 @@
             android:layout_width="205sp"
             android:layout_height="match_parent"
             android:background="@color/colorPrimaryDark"
+            style="@style/AppTheme"
             android:text="@string/clear_cart" />
 
         <Button
@@ -80,6 +81,7 @@
             android:layout_width="205sp"
             android:layout_height="match_parent"
             android:background="@color/colorPrimary"
+            style="@style/AppTheme"
             android:text="@string/proceed" />
     </LinearLayout>
 

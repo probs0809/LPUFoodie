@@ -21,17 +21,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class CartItemAdapter extends ArrayAdapter<Food> implements LpuFoodie {
     Context context;
-    private List<Food> cartList;
 
-    public CartItemAdapter(@NonNull Context context, int resource, List<Food> cartList) {
-        super(context, resource, cartList);
-        this.cartList = cartList;
+    public CartItemAdapter(@NonNull Context context, int resource) {
+        super(context, resource, new ArrayList<>(LF_Orders));
         this.context = context;
-        System.out.println(cartList.size());
+        System.out.println(LF_Orders.size());
+        LF_CartList.addAll(LF_Orders);
     }
 
     @Override
@@ -43,7 +43,7 @@ class CartItemAdapter extends ArrayAdapter<Food> implements LpuFoodie {
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final Food food = cartList.get(position);
+        final Food food = LF_CartList.get(position);
         View rowView = inflater.inflate(R.layout.cart_item, null);
         ImageView image = rowView.findViewById(R.id.image);
         TextView restaurant_name = rowView.findViewById(R.id.restaurant_name);
@@ -65,8 +65,8 @@ class CartItemAdapter extends ArrayAdapter<Food> implements LpuFoodie {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 item_cost.setText(("Rs." + (food.getCost()*integer[i])));
-                cartList.get(position).setCount(integer[i]);
-                Cart.cartValue.setText(("Final Value : \t " + LF_FinalSumFood.apply(cartList)));
+                LF_CartList.get(position).setCount(integer[i]);
+                Cart.cartValue.setText(("Final Value : \t " + LF_FinalSumFood.apply(LF_CartList)));
             }
 
             @Override

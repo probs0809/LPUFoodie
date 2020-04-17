@@ -17,10 +17,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 interface LpuFoodie {
@@ -28,6 +32,14 @@ interface LpuFoodie {
     FirebaseAuth LF_Auth = FirebaseAuth.getInstance();
 
     Set<Food> LF_Orders = new HashSet<>();
+    List<Food> LF_CartList = new ArrayList<>();
+    Map<String,Boolean> LF_Booleans = new HashMap<>();
+
+    Supplier<Void> LF_ClearCart = () -> {
+        LF_CartList.clear();
+        LF_Orders.clear();
+        return null;
+    };
 
     Function<View, YoYo.YoYoString> LF_FadeInAnimation = YoYo.with(Techniques.FadeIn).delay(500).duration(700)::playOn;
 

@@ -10,10 +10,16 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +27,7 @@ import java.util.Objects;
 import java.util.function.BiConsumer;
 
 
-public class Cart extends Fragment {
+public class Cart extends Fragment implements LpuFoodie {
     static TextView cartValue;
     private ListView listView;
     private Handler handler = new Handler(Looper.getMainLooper());
@@ -46,17 +52,28 @@ public class Cart extends Fragment {
         set.start();
 
         view.findViewById(R.id.clear_cart).setOnClickListener(v -> {
-            MainActivity.LF_Orders.clear();
+            LF_ClearCart.get();
             setCart(view);
         });
+
+        view.findViewById(R.id.order).setOnClickListener(view1 -> {
+            DatabaseReference dr = LF_DatabaseReference.apply("Users/"+LF_Auth.getUid());
+            if(LF_CartList.size()>0 && LF_Booleans.get("orders") == false){
+                dr.child("orders").setValue(true);
+                LF_CartList.forEach((food)-> dr.child("deliver").child(Objects.requireNonNull(dr.child("deliver").push().getKey())).setValue(food));
+                LF_ClearCart.get();
+                setCart(view);
+            }else{
+                Snackbar.make(getActivity().findViewById(R.id.mainActivity),"Your deliveries are on the way",Snackbar.LENGTH_LONG).show();
+            }
+        });
+
         return view;
     }
 
     private void setCart(View view) {
-        List<Food> cartList;
-        if (!MainActivity.LF_Orders.isEmpty()) {
-            cartList = new ArrayList<>(MainActivity.LF_Orders);
-            CartItemAdapter cartItemAdapter = new CartItemAdapter(Objects.requireNonNull(getContext()), R.layout.cart_item, cartList);
+        if (!LF_Orders.isEmpty()) {
+            CartItemAdapter cartItemAdapter = new CartItemAdapter(Objects.requireNonNull(getContext()), R.layout.cart_item);
             listView.setAdapter(cartItemAdapter);
             changeVisibility
                     .accept(Boolean.TRUE,view);
@@ -92,5 +109,3 @@ public class Cart extends Fragment {
 
 
 }
-
-

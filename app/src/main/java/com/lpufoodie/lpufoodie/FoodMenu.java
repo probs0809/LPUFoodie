@@ -44,6 +44,7 @@ public class FoodMenu extends AppCompatActivity implements LpuFoodie {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_food_menu);
+        LF_ClearCart.get();
         this.restaurant = ARG_PARAM1;
         this.context = ARG_PARAM2;
         this.fragmentManager = ARG_PARAM3;
