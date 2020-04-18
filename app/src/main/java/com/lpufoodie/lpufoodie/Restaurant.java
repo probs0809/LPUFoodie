@@ -10,6 +10,20 @@ public class Restaurant {
     private String pictureUri;
     private String subTitle;
     private String offer;
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
+    public void setFoods(ArrayList<Food> foods) {
+        this.foods = foods;
+    }
+
+    private String keywords;
     private ArrayList<Food> foods = new ArrayList<>();
 
     public Restaurant() {

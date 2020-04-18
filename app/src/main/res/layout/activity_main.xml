@@ -18,7 +18,8 @@
         app:backgroundTint="@color/colorAccent"
         app:fabSize="auto"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone"/>
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/header"

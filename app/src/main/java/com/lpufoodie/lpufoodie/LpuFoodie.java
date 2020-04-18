@@ -1,18 +1,20 @@
 package com.lpufoodie.lpufoodie;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.arch.core.util.Function;
+import androidx.core.util.Supplier;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.gms.common.util.BiConsumer;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,11 +30,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.Supplier;
 
 interface LpuFoodie {
     int RC_SIGN_IN = 9001;
+
+    List<Restaurant> LF_Restaurants = new ArrayList<>();
 
     FirebaseAuth LF_Auth = FirebaseAuth.getInstance();
 
@@ -66,7 +68,7 @@ interface LpuFoodie {
 
     Function<List<Food>, Double> LF_FinalSumFood = foods -> foods.stream().mapToDouble(food -> food.getCount() * food.getCost()).sum();
 
-    com.google.android.gms.common.util.BiConsumer<FirebaseUser, FloatingActionButton> setFab = (u, fab) -> {
+    BiConsumer<FirebaseUser,Context> LF_SetOrderBool = (u,context) -> {
         if (u != null)
             LF_DatabaseReference.apply("Users/" + u.getUid()).child("orders").addValueEventListener(new ValueEventListener() {
                 @Override
@@ -75,10 +77,10 @@ interface LpuFoodie {
                     assert b != null;
                     if (b.equals(Boolean.FALSE)) {
                         LF_Booleans.put("orders", false);
-                        fab.hide();
                     } else {
                         LF_Booleans.put("orders", true);
-                        fab.show();
+                        context.startActivity(new Intent(context,DeliveryStatus.class));
+
                     }
                 }
 
@@ -88,4 +90,6 @@ interface LpuFoodie {
                 }
             });
     };
+
+
 }

@@ -3,7 +3,6 @@ package com.lpufoodie.lpufoodie;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -16,16 +15,12 @@ import androidx.viewpager.widget.ViewPager;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity implements LpuFoodie {
     static Restaurant restaurant;
     static ViewPager vpPager;
     BottomNavigationView bottomNavigationView;
     Handler handler;
-    float dX;
-    float dY;
-    int lastAction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,37 +71,11 @@ public class MainActivity extends AppCompatActivity implements LpuFoodie {
 
         vpPager.setCurrentItem(bg ? 2 : 0, true);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        setFab.accept(LF_User.get(), fab);
+
+        LF_SetOrderBool.accept(LF_User.get(),MainActivity.this);
 
 
-        fab.setOnTouchListener((view, event) -> {
-            view.performClick();
-            switch (event.getActionMasked()) {
-                case MotionEvent.ACTION_DOWN:
-                    dX = view.getX() - event.getRawX();
-                    dY = view.getY() - event.getRawY();
 
-                    lastAction = MotionEvent.ACTION_DOWN;
-                    break;
-
-                case MotionEvent.ACTION_MOVE:
-                    view.setY(event.getRawY() + dY);
-//                    view.setX(event.getRawX() + dX);
-                    lastAction = MotionEvent.ACTION_MOVE;
-                    break;
-
-                case MotionEvent.ACTION_UP:
-                    if (lastAction == MotionEvent.ACTION_DOWN)
-                        locate(view);
-                    break;
-
-                default:
-                    return false;
-            }
-
-            return true;
-        });
     }
 
 
@@ -127,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements LpuFoodie {
     public class MyPagerAdapter extends FragmentPagerAdapter {
 
         MyPagerAdapter(@NonNull FragmentManager fm) {
-            super(fm);
+            super(fm,FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         }
 
         @Override
@@ -140,16 +109,15 @@ public class MainActivity extends AppCompatActivity implements LpuFoodie {
         public Fragment getItem(int position) {
             switch (position) {
                 case 1:
-                    return new Search();
+                    return new Search(MainActivity.this.getSupportFragmentManager());
                 case 2:
                     return new Cart();
                 case 3:
                     return new Account();
                 default:
+
                     return new Home(MainActivity.this.getSupportFragmentManager());
             }
-
-
         }
 
         @Override

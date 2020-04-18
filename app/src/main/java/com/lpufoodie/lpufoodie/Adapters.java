@@ -2,6 +2,7 @@ package com.lpufoodie.lpufoodie;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 class CartItemAdapter extends ArrayAdapter<Food> implements LpuFoodie {
     private Context context;
@@ -66,7 +72,7 @@ class CartItemAdapter extends ArrayAdapter<Food> implements LpuFoodie {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 item_cost.setText(("Rs." + (food.getCost() * integer[i])));
                 LF_CartList.get(position).setCount(integer[i]);
-                Cart.cartValue.setText(("Final Value : \t " + LF_FinalSumFood.apply(LF_CartList)));
+                Cart.cartValue.setText(("Final Value : \t Rs. " + LF_FinalSumFood.apply(LF_CartList)));
             }
 
             @Override
@@ -83,14 +89,10 @@ class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewAdapter> implemen
 
     private Button cart;
     private List<Food> foodList;
-    private Context context;
-    private FragmentManager fragmentManager;
 
-    FoodAdapter(List<Food> foodList, Context context, FragmentManager fragmentManager, Button button) {
-        MainActivity.LF_Orders.clear();
+    FoodAdapter(List<Food> foodList, Button button) {
+        LF_Orders.clear();
         this.foodList = foodList;
-        this.context = context;
-        this.fragmentManager = fragmentManager;
         this.cart = button;
     }
 
@@ -142,15 +144,26 @@ class FoodAdapter extends RecyclerView.Adapter<FoodAdapter.ViewAdapter> implemen
 }
 
 class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewAdapter> implements LpuFoodie {
-    private List<Restaurant> restaurants;
     private Context context;
     private FragmentManager fragmentManager;
+    protected View view;
+    private List<Restaurant> restaurants = new ArrayList<>();
 
-
-    RestaurantsAdapter(List<Restaurant> restaurants, Context context, FragmentManager fragmentManager) {
-        this.restaurants = restaurants;
+    RestaurantsAdapter(Context context, FragmentManager fragmentManager,View view) {
         this.context = context;
         this.fragmentManager = fragmentManager;
+        this.view = view;
+        RestaurantDataLoader rd = new RestaurantDataLoader();
+        rd.execute();
+    }
+
+    RestaurantsAdapter(Context context, FragmentManager fragmentManager, View view,String keywords) {
+        this.context = context;
+        this.fragmentManager = fragmentManager;
+        this.view = view;
+        restaurants = LF_Restaurants.stream()
+                                    .filter(r -> r.getKeywords().toLowerCase().contains(keywords.toLowerCase()) )
+                                    .collect(Collectors.toList());
     }
 
     @NonNull
@@ -172,7 +185,6 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewAda
         for (int i = 0; i < rate; i++) {
             holder.st[i].setVisibility(View.VISIBLE);
         }
-
         holder.offer.setText(res.getOffer());
         holder.itemView.setVisibility(View.VISIBLE);
         holder.itemView.setOnClickListener(view -> {
@@ -206,6 +218,32 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewAda
             st[2] = itemView.findViewById(R.id.st3);
             st[3] = itemView.findViewById(R.id.st4);
             st[4] = itemView.findViewById(R.id.st5);
+        }
+    }
+
+    class RestaurantDataLoader extends AsyncTask<Object, Integer, Void> {
+        @Override
+        protected Void doInBackground(Object... o) {
+            LF_DatabaseReference.apply("Restaurant").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    view.setVisibility(View.GONE);
+                    LF_Restaurants.clear();
+                    for (DataSnapshot rDataSnap : dataSnapshot.getChildren()) {
+                        Restaurant restaurant = rDataSnap.getValue(Restaurant.class);
+                        LF_Restaurants.add(restaurant);
+                    }
+                    restaurants = LF_Restaurants;
+                    RestaurantsAdapter.this.notifyDataSetChanged();
+                    view.setVisibility(View.VISIBLE);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            return null;
         }
     }
 }

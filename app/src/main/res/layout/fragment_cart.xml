@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#ffffff"
+    android:background="@color/bw"
     tools:context=".Cart">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,16 +48,16 @@
         android:orientation="vertical"
         android:visibility="gone" />
 
+
     <TextView
         android:id="@+id/cart_value"
         android:layout_width="match_parent"
         android:layout_height="60sp"
         android:layout_gravity="bottom"
         android:layout_marginBottom="50sp"
-        android:padding="10sp"
-        android:text="Final Value : \t\t100"
+        android:padding="5sp"
         android:textColor="#000000"
-        android:textSize="28sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:visibility="gone" />
 

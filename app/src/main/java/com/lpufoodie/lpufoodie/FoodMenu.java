@@ -68,7 +68,7 @@ public class FoodMenu extends AppCompatActivity implements LpuFoodie {
                     food.add(rDataSnap.getValue(Food.class));
                 }
 
-                FoodAdapter ra = new FoodAdapter(food, getApplicationContext(), fragmentManager, findViewById(R.id.go_to_cart));
+                FoodAdapter ra = new FoodAdapter(food, findViewById(R.id.go_to_cart));
                 rv.setAdapter(ra);
                 rv.setVisibility(View.VISIBLE);
                 cp.setVisibility(View.GONE);
