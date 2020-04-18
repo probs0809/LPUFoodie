@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -41,7 +42,7 @@ public class LoginActivity extends AppCompatActivity implements LpuFoodie {
         }
     }
 
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+    private void firebaseAuthWithGoogle(@NonNull GoogleSignInAccount acct) {
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         LF_Auth.signInWithCredential(credential).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
@@ -51,7 +52,7 @@ public class LoginActivity extends AppCompatActivity implements LpuFoodie {
                 dr.child("email").setValue(user.getEmail());
                 dr.child("photo_url").setValue(user.getPhotoUrl().toString());
                 dr.child("number").setValue(user.getPhoneNumber());
-                dr.child("orders").setValue(!LF_Orders.isEmpty());
+                dr.child("orders").setValue(false);
                 startActivity(goToMainActivity);
             } else {
                 Snackbar.make(findViewById(R.id.login), "Authentication Failed.", Snackbar.LENGTH_SHORT)

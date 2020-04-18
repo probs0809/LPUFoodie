@@ -33,7 +33,6 @@ public class Cart extends Fragment implements LpuFoodie {
         cartValue.setVisibility(b ? View.VISIBLE : View.GONE);
     };
 
-
     public Cart() {
     }
 
@@ -43,7 +42,7 @@ public class Cart extends Fragment implements LpuFoodie {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         final View view = inflater.inflate(R.layout.fragment_cart, container, false);

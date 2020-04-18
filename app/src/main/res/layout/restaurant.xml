@@ -105,7 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll2"
-            android:layout_marginBottom="4sp"
+            android:layout_marginBottom="10sp"
             android:text="Sample Restaurant"
             android:textColor="#ff0021"
             android:textSize="15sp" />
