@@ -31,7 +31,7 @@ public class Account extends Fragment implements LpuFoodie {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_account, container, false);
         TextView name = v.findViewById(R.id.name), number_email = v.findViewById(R.id.email_number);
         FirebaseUser user = LF_User.get();
@@ -56,7 +56,7 @@ public class Account extends Fragment implements LpuFoodie {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
     }
 

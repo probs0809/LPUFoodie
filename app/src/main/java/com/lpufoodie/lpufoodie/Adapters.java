@@ -149,7 +149,7 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewAda
     protected View view;
     private List<Restaurant> restaurants = new ArrayList<>();
 
-    RestaurantsAdapter(Context context, FragmentManager fragmentManager,View view) {
+    RestaurantsAdapter(Context context,FragmentManager fragmentManager,View view) {
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.view = view;
@@ -157,7 +157,7 @@ class RestaurantsAdapter extends RecyclerView.Adapter<RestaurantsAdapter.ViewAda
         rd.execute();
     }
 
-    RestaurantsAdapter(Context context, FragmentManager fragmentManager, View view,String keywords) {
+    RestaurantsAdapter(Context context,FragmentManager fragmentManager,View view,String keywords) {
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.view = view;
